@@ -2,6 +2,7 @@
 #define HUMIDITYTEMPSENSOR_H
 
 #include <stdint.h>
+#include <wiringPi.h>
 
 #ifndef DHT11PIN
 #define DHT11PIN 7

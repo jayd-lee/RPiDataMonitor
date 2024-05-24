@@ -1,6 +1,5 @@
 #include "humidityTempSensor.h"
 #include <stdio.h>
-#include <wiringPi.h>
 
 int dht11_val[5] = {0, 0, 0, 0, 0};
 
