@@ -1,4 +1,4 @@
-# RPiDataMonitor
+# RPiDataMonitor Report
 
 `RPiDataMonitor` is a small project I worked on in my C Programming class to learn more about writing code for a self-contained device using a single-board Raspberry Pi and various sensors. The self-contained device that I used for this project includes the following specs:
 
@@ -35,16 +35,16 @@ The project is structured as follows:
 
 RPiDataMonitor is a very simple program that records humidity and temperature data, prints it out to the LCD panel, and records it to the database, while allowing the user to interact with the data. Here is a rundown explaining how the code works step by step:
 
-#### 0. Table of contents
+### 0. Table of contents
 
-* [1. Setup & init](#### 1. Setup & init)
-* [2. Start the data collection thread](#### 2. Start the data collection thread)
-* [3. CLI application for the user in the main thread](#### 3. CLI application for the user in the main thread)
-* [4. Calling the database](#### 4. Calling the database)
-* [5. Summary](#### 5. Summary)
+* [1. Setup & init](#1-setup--init)
+* [2. Start the data collection thread](#2-start-the-data-collection-thread)
+* [3. CLI application for the user in the main thread](#3-cli-application-for-the-user-in-the-main-thread)
+* [4. Calling the database](#4-calling-the-database)
+* [5. Summary](#5-summary)
 
 
-#### 1. Setup & init
+### 1. Setup & init
 
 Here are the first few lines of code for the main function of the project
 
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 
 The database is initialized using the credentials specified in the first four lines of the main function. Within the `db.c` file, the `dbConnect` and `dbInit` functions manage the database connection and ensure proper SQL table configuration. The `wiringPiSetup` function is called to check for any errors before using the sensor and the LCD panel.
 
-#### 2. Start the data collection thread
+### 2. Start the data collection thread
 
 ```c
 	SensorData data;	
@@ -127,7 +127,7 @@ Then, the program runs a few safety checks before adding the humidity & temperat
 
 After adding the data to the database, the mutex unlocks, and the loop repeats after a delay of 3 seconds.
 
-#### 3. CLI application for the user in the main thread
+### 3. CLI application for the user in the main thread
 
 Back at the main thread, the user is prompted with a displayMenu in the command line:
 
@@ -189,7 +189,7 @@ The handleUserInput function processes user input and executes the corresponding
 
 For option 1, the first two arguments are passed in as NULL, which makes the getAllStats function use the default values for the start and end time ranges. For option 2, the user enters the date range, and `isValidDate` function is called to prevent the user from entering bad input to cause SQL injections or Seg faults.
 
-#### 4. Calling the database
+### 4. Calling the database
 
 When the `getAllStats` is finally called, the program makes queries to the database through other helper functions in `db.c` to return a statistics report about the humidity and temperature data:
 
@@ -247,7 +247,7 @@ int getAverage(const char *column, const char *startTime, const char *endTime, d
 ```
 
 
-#### 5. Summary
+### 5. Summary
 
 And there, the program is able to safely collect data and also run a CLI application at the same time, utilizing many technologies and methodologies to create a cohesive experience for the user.
 
