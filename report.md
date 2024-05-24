@@ -42,6 +42,7 @@ RPiDataMonitor is a very simple program that records humidity and temperature da
 * [3. CLI application for the user in the main thread](#3-cli-application-for-the-user-in-the-main-thread)
 * [4. Calling the database](#4-calling-the-database)
 * [5. Summary](#5-summary)
+* [6. Video Demo](#6-video-demo)
 
 
 ### 1. Setup & init
@@ -253,7 +254,7 @@ And there, the program is able to safely collect data and also run a CLI applica
 
 This project was not too difficult to implement. However, the multi-component nature of this program was what made it exciting to work with, and it was one of the most fun projects that I have made!
 
-### 6. Video Demo
+### 6. Video demo
 
 [![RPiDataMonitor demo](https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/video.png)](https://youtu.be/KLrDpr5rRgU)
 
