@@ -13,7 +13,6 @@ Here is a picture and a fritzing diagram that shows the hardware connections for
   <img src="https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/fritzing.png" alt="RPiDataMonitor fritzing diagram" width="45%" style="display: inline-block;"/>
 </p>
 
-```
 ## Structure
 
 The project is structured as follows:
