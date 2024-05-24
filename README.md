@@ -6,14 +6,12 @@
 - `DHT11` humidity and temperature sensor
 - `16x2 LCD Panel` (w/out i2c controller)
 
-
 Here is a picture and a fritzing diagram that shows the hardware connections for the device:
 
-![RPiDataMonitor picture](https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/picture.png)
-
-
-![RPiDataMonitor fritzing diagram](https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/fritzing.png)
-
+<p align="center">
+  <img src="https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/picture.png" alt="RPiDataMonitor picture" width="45%" style="display: inline-block; margin-right: 10px;"/>
+  <img src="https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/fritzing.png" alt="RPiDataMonitor fritzing diagram" width="45%" style="display: inline-block;"/>
+</p>
 
 ## Setup
 
