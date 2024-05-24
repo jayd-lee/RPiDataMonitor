@@ -65,10 +65,35 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+void *recordData(void *arg) {
+	SensorData *data = (SensorData *)arg;
+	lcdSetup();
+
+	while (1) {
+		dht11_read_val(&(data->humidity), &(data->temperature));
+		// printf("humidity = %lf, temperature = %lf\n", data->humidity, data->temperature);
+		printLCD(data->humidity, data->temperature);
+		
+		// implement mutexes to prevent race conditions / DB read & write errors
+		// (AKA Prof Miller's "Porta Potty")
+		pthread_mutex_lock(&mutex);
+
+		// shouldn't put initial values (infinity) into DB
+		if (!isinf(data->humidity) && !isinf(data->temperature)) {
+			addData(data->humidity, data->temperature);
+		}
+
+		pthread_mutex_unlock(&mutex);
+
+		delay(3000);
+	}
+}
+
 void displayMenu() {
 	printf("Please select an option:\n");
-	printf("1. Show statistics (min, max, average) \n");
-	printf("2. Exit\n\n");
+	printf("1. Show statistics (min, max, average) for all data \n");
+	printf("2. Show statistics (min, max, average) for time range \n");
+	printf("3. Exit\n\n");
 	printf("Enter your choice: ");
 }
 
@@ -79,10 +104,21 @@ void handleUserInput() {
 	char startDate[11], endDate[11];
 
 	printf("Enter your choice: ");
-	scanf("%d", &choice); // Read user input
+	scanf("%d", &choice);
 
 	switch (choice) {
-		case 1:
+                case 1:
+			pthread_mutex_lock(&mutex);
+			if (getAllStats(NULL, NULL, &minHumidity, &maxHumidity, &averageHumidity,
+						&minTemp, &maxTemp, &averageTemp) == 0) {
+				printf("\nHumidity - Min: %.2lf, Max: %.2lf, Avg: %.2lf\n", minHumidity, maxHumidity, averageHumidity);
+				printf("Temperature - Min: %.2lf, Max: %.2lf, Avg: %.2lf\n\n", minTemp, maxTemp, averageTemp);
+			} else {
+				printf("Error fetching statistics.\n");
+			}
+			pthread_mutex_unlock(&mutex);
+			break;
+		case 2:
 			printf("Enter start date (YYYY-MM-DD): ");
 			scanf(" %s", startDate); // Add space before %s to consume newline
 
@@ -106,7 +142,6 @@ void handleUserInput() {
 			snprintf(endTime, sizeof(endTime), "%s 23:59:59", endDate);
 
 			pthread_mutex_lock(&mutex);
-
 			if (getAllStats(startTime, endTime, &minHumidity, &maxHumidity, &averageHumidity,
 						&minTemp, &maxTemp, &averageTemp) == 0) {
 				printf("\nHumidity - Min: %.2lf, Max: %.2lf, Avg: %.2lf\n", minHumidity, maxHumidity, averageHumidity);
@@ -114,11 +149,9 @@ void handleUserInput() {
 			} else {
 				printf("Error fetching statistics.\n");
 			}
-
 			pthread_mutex_unlock(&mutex);
-
 			break;
-		case 2:
+		case 3:
 			printf("Exiting program.\n");
 			closeDB();
 			exit(0);
@@ -155,22 +188,3 @@ bool isValidDate(const char *date) {
 	return true;
 }
 
-void *recordData(void *arg) {
-	SensorData *data = (SensorData *)arg;
-	lcdSetup();
-
-	while (1) {
-		dht11_read_val(&(data->humidity), &(data->temperature));
-		// printf("humidity = %lf, temperature = %lf\n", data->humidity, data->temperature);
-		printLCD(data->humidity, data->temperature);
-
-		pthread_mutex_lock(&mutex);
-		if (!isinf(data->humidity) && !isinf(data->temperature)) {
-			addData(data->humidity, data->temperature);
-		}
-
-		pthread_mutex_unlock(&mutex);
-
-		delay(3000);
-	}
-}
