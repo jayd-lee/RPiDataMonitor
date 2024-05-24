@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "humidityTempSensor.h"
-#include "db.h"
-#include <wiringPi.h>
 #include <pthread.h>
+#include "humidityTempSensor.h"
+#include "lcdPanel.h"
+#include "db.h"
 
 typedef struct {
 	double humidity;
@@ -54,11 +54,13 @@ int main() {
 
 void *recordData(void *arg) {
 	SensorData *data = (SensorData *)arg;
+	lcdSetup();
+
 	while (1) {
 		dht11_read_val(&(data->humidity), &(data->temperature));
 		printf("humidity = %lf, temperature = %lf\n", data->humidity, data->temperature);
+		printLCD(data->humidity, data->temperature);
 		addData(data->humidity, data->temperature);
 		delay(3000);
 	}
 }
-
