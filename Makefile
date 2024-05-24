@@ -4,8 +4,8 @@ BUILD_DIR := ./build
 TARGET = $(BUILD_DIR)/main
 
 CC = gcc
-CFLAGS = -I$(INCLUDE_DIR) -Wall -Wextra `mysql_config --cflags`
-LDFLAGS = -lwiringPi -lwiringPiDev `mysql_config --libs`
+CFLAGS = -I$(INCLUDE_DIR) -Wall -Wextra `mysql_config --cflags` `pkg-config --cflags gtk+-3.0`
+LDFLAGS = -lwiringPi -lwiringPiDev `mysql_config --libs` `pkg-config --libs gtk+-3.0`
 
 # List of source files
 SRCS := $(wildcard $(SRC_DIR)/*.c)
