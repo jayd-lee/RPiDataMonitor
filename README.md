@@ -13,9 +13,36 @@ Here is a picture and a fritzing diagram that shows the hardware connections for
   <img src="https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/fritzing.png" alt="RPiDataMonitor fritzing diagram" width="45%" style="display: inline-block;"/>
 </p>
 
+```
+## Structure
+
+The project is structured as follows:
+
+```txt
+├── build                       intermediate build files e.g. *.o (created by make)
+├── include                     header files
+├── src                         C source files
+│   ├── main.c                  Entry point for the CLI
+│   ├── db.c                    Functions for db operations
+│   ├── humidityTempSensor.c    Record DHT11 data
+│   ├── lcd.c                   Outputs data to LCD
+│   └── gui.c                   incomplete GUI for the program
+├── .gitignore
+├── Makefile
+└── README.md
+```
+
 ## Setup
 
-Intall mariadb and mysqlclient
+There are three dependencies that is required before building and running this project
+
+Install WiringPi (required for GPIO interfacing)
+
+```shell
+git clone https://github.com/WiringPi/WiringPi
+```
+
+Intall mariadb and mysqlclient (or any choice of database)
 
 ```shell
 sudo apt-get install mariadb-server
