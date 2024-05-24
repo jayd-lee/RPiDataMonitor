@@ -255,21 +255,6 @@ This project was not too difficult to implement. However, the multi-component na
 
 ### 6. Video Demo
 
-<div style={{  
-        position: "relative",
-        overflow: "hidden",
-        width: "100%",
-        paddingTop: "56.25%",
-        }}>
-<iframe style={{  
-        position: "absolute",
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        width: "100%",
-        height: "100%",}} src="https://youtu.be/KLrDpr5rRgU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
-</div>
-
+[![RPiDataMonitor demo](https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/video.png)](https://youtu.be/KLrDpr5rRgU)
 
 
