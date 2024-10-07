@@ -1,6 +1,6 @@
 # RPiDataMonitor
 
-`RPiDataMonitor` is a small project I worked on in my C Programming class to learn more about writing code for a self-contained device using a single-board Raspberry Pi and various sensors. The self-contained device that I used for this project includes the following specs:
+`RPiDataMonitor` is a small project I worked on to learn more about writing code for a self-contained device using a single-board Raspberry Pi and various sensors. The project includes the following specs:
 
 - `Raspberry Pi 4 Model B` with the `Raspbian GNU/Linux 12` operating system
 - `DHT11` humidity and temperature sensor
