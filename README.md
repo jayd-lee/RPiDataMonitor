@@ -1,5 +1,7 @@
 # RPiDataMonitor
 
+You can find a more comprehensive documentation in the [report.md](https://github.com/jayd-lee/RPiDataMonitor/blob/main/report.md).
+
 `RPiDataMonitor` is a small project I worked on to learn more about writing code for a self-contained device using a single-board Raspberry Pi and various sensors. The project includes the following specs:
 
 - `Raspberry Pi 4 Model B` with the `Raspbian GNU/Linux 12` operating system
@@ -80,4 +82,3 @@ make
 ```shell
 ./build/main
 ```
-

@@ -1,6 +1,6 @@
 # RPiDataMonitor Report
 
-`RPiDataMonitor` is a small project I worked on in my C Programming class to learn more about writing code for a self-contained device using a single-board Raspberry Pi and various sensors. The self-contained device that I used for this project includes the following specs:
+`RPiDataMonitor` is a small project I worked on to learn more about writing code for a self-contained device using a single-board Raspberry Pi and various sensors. The project includes the following specs:
 
 - `Raspberry Pi 4 Model B` with the `Raspbian GNU/Linux 12` operating system
 - `DHT11` humidity and temperature sensor
@@ -37,13 +37,13 @@ RPiDataMonitor is a very simple program that records humidity and temperature da
 
 ### 0. Table of contents
 
-* [1. Setup & init](#1-setup--init)
-* [2. Start the data collection thread](#2-start-the-data-collection-thread)
-* [3. CLI application for the user in the main thread](#3-cli-application-for-the-user-in-the-main-thread)
-* [4. Calling the database](#4-calling-the-database)
-* [5. Summary](#5-summary)
-* [6. Video Demo](#6-video-demo)
-
+- [1. Setup & init](#1-setup--init)
+- [2. Start the data collection thread](#2-start-the-data-collection-thread)
+- [3. CLI application for the user in the main thread](#3-cli-application-for-the-user-in-the-main-thread)
+- [4. Calling the database](#4-calling-the-database)
+- [5. Summary](#5-summary)
+- [6. Video Demo](#6-video-demo)
+- [7. What's next?](#7-whats-next)
 
 ### 1. Setup & init
 
@@ -80,7 +80,7 @@ The database is initialized using the credentials specified in the first four li
 ### 2. Start the data collection thread
 
 ```c
-	SensorData data;	
+	SensorData data;
 	data.humidity = INITIAL_VALUE;
 	data.temperature = INITIAL_VALUE;
 
@@ -89,6 +89,7 @@ The database is initialized using the credentials specified in the first four li
 	pthread_create(&thread1, NULL, recordData, &data);
 
 ```
+
 Here, `data` is initialized as a SensorData struct, which is a C structure that contains humidity (double) and temperature (double) members. This struct encapsulates the two variables, which allows them to be passed as a single parameter to `pthread_create`, which accepts only one argument for the function parameter (the 4th argument). The `data.humidity` and `data.temperature` is initialized to a typedef of `INITIAL_VALUE`, which is set to INFINITY. This is done to avoid entering initially declared values into the database, later in the code.
 
 With the initialization of `thread1` and the execution of the `pthread_create` function, the `recordData` function now runs on a separate thread:
@@ -102,7 +103,7 @@ void *recordData(void *arg) {
 		dht11_read_val(&(data->humidity), &(data->temperature));
 		// printf("humidity = %lf, temperature = %lf\n", data->humidity, data->temperature);
 		printLCD(data->humidity, data->temperature);
-		
+
 		// implement mutexes to prevent race conditions / DB read & write errors
 		// (AKA Prof Miller's "Porta Potty")
 		pthread_mutex_lock(&mutex);
@@ -120,7 +121,7 @@ void *recordData(void *arg) {
 
 ```
 
-The `recordData` function sets up the LCD panel, and begins collecting the humidity and temperature data with an infinite while loop. This will run indefinitely until the user exits the program, on a separate thread. 
+The `recordData` function sets up the LCD panel, and begins collecting the humidity and temperature data with an infinite while loop. This will run indefinitely until the user exits the program, on a separate thread.
 
 The function records new data with the `dht11_read_val` function from `humidityTempSensor.c`, and prints the most recent data to the LCD panel using the `printLCD` function from `lcd.c`.
 
@@ -194,7 +195,6 @@ For option 1, the first two arguments are passed in as NULL, which makes the get
 
 When the `getAllStats` is finally called, the program makes queries to the database through other helper functions in `db.c` to return a statistics report about the humidity and temperature data:
 
-
 ```c
 // db.c
 
@@ -221,7 +221,7 @@ int getAllStats(const char *startTime, const char *endTime,
 
 ```
 
-As stated before, the `defaultStartTime` and `defaultEndTime` is set for option 1, which returns the statistics for all data in the database. 
+As stated before, the `defaultStartTime` and `defaultEndTime` is set for option 1, which returns the statistics for all data in the database.
 
 The `getMin`, `getMax`, and `getAverage` helper functions make their corresponding database queries, to both humidity and temperature data.
 
@@ -247,7 +247,6 @@ int getAverage(const char *column, const char *startTime, const char *endTime, d
 }
 ```
 
-
 ### 5. Summary
 
 And there, the program is able to safely collect data and also run a CLI application at the same time, utilizing many technologies and methodologies to create a cohesive experience for the user.
@@ -258,4 +257,9 @@ This project was not too difficult to implement. However, the multi-component na
 
 [![RPiDataMonitor demo](https://github.com/jayd-lee/resources/blob/main/RPiDataMonitor/video.png)](https://youtu.be/KLrDpr5rRgU)
 
+### 7. What's next?
 
+I have extended this project to make it work with Go and the microservices
+architecture, which you can check out on the
+[RPiDataMicroservices](https://github.com/jayd-lee/RPiDataMicroservices)
+repository.
